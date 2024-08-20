@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Group {
+  id           Int      @id @default(autoincrement())
+  name         String?
+  password     String?   //unique 속성을 추가할지 말지
+  createdAt    DateTime @default(now())
+  introduction  String   @default("string")
+  likeCount    Int      @default(0)
+  isPublic     Boolean  @default(true)
+  imageUrl     String   @default("String")
+  posts        Post[]   //postCount를 위해서 일대다 관계
+  postCount    Int      @default(0) // 추가된 필드
+  badges       String?  @default("[]")//배지가 어떤 방식으로 추가되는지 모르겠음
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  posts     Group @relation(fields: [postsId], references: [id]) 
+  //fields는 현재 모델(POST)의 외래키, references는 참조 대상(Group)의 pk
+  postsId   Int     @default(0)//post가 Group로 연결됨?
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+}
