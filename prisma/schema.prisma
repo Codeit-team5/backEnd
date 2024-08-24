@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//일단 default 값들을 임의로 정해두었음
 model Group {
   id           Int      @id @default(autoincrement())
   name         String?
@@ -23,20 +24,38 @@ model Group {
   isPublic     Boolean  @default(true)
   imageUrl     String   @default("String")
   posts        Post[]   //postCount를 위해서 일대다 관계
-  postCount    Int      @default(0) // 추가된 필드
+  postCount    Int      @default(0) // 추가된 필드    //post가 추가될때 마다 추가 되는지 확인해야 함.
   badges       String?  @default("[]")//배지가 어떤 방식으로 추가되는지 모르겠음
 }
 
 model Post {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String    @default("")
+  nickname  String    @default("")
+  title     String    @default("")
+  content   String    @default("")
+  imageUrl  String    @default("")
+  tags      String   @default("[]")
+  location  String   @default("")
+  moment    DateTime   @default(now())    //양식에 따라 이후에 변경해야함
+  isPublic  Boolean @default(true)
+  likeCount Int       @default(0) 
   createdAt DateTime @default(now())
-  posts     Group @relation(fields: [postsId], references: [id]) 
+  postPassword  String
+  groupPassword String
+  
+  groupId   Int    // 외래 키 필드
+  group     Group  @relation(fields: [groupId], references: [id])  
   //fields는 현재 모델(POST)의 외래키, references는 참조 대상(Group)의 pk
-  postsId   Int     @default(0)//post가 Group로 연결됨?
+
+  comments Comment[]
+  commentCount Int @default(0)
 }
+
 
 model Comment {
   id          Int      @id @default(autoincrement())
+  comments    Post    @relation(fields: [commentsId],references: [id])
+  commentsId  Int       @default(0)
   createdAt   DateTime @default(now())
 }
