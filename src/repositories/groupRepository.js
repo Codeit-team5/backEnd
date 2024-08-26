@@ -43,21 +43,28 @@ async function registerList(group){
 
 
 //그룹 목록 조회하기에서 보여줘야 할 것들(db에 있는 모든 것)
-async function list(){
-  const listGroup = await prisma.group.findMany({
+async function list(keyword,isPublic){
+  return await prisma.group.findMany({
+    where:{
+      //contain으로 포함이 되어 확인함.
+      OR: [
+        { name: { contains: keyword } }, // title에 keyword가 포함된 경우
+        { introduction: { contains: keyword } },  // tags 배열에 keyword가 포함된 경우
+      ],
+      isPublic : isPublic
+    },
     select:{
       "id": true,
-      "name": true,
-      "imageUrl": true,
-      "isPublic": true,
-      "likeCount": true,
-      "badges": true,
-      "postCount": true,
-      "createdAt": true,
-      "introduction": true
+			"name": true,
+			"imageUrl": true,
+			"isPublic": true,
+			"likeCount": true,
+			"badgeCount": true,
+			"postCount": true,
+			"createdAt": true,
+			"introduction": true
     }
-  });
-  return listGroup;
+  })
 };
 
 //GroupId를 통해서 해당 Group 반환

@@ -3,7 +3,7 @@ POST http://localhost:3000/api/groups
 Content-Type: application/json
 
 {
-	"name": "kar",
+	"name": "kaiiis",
 	"password": "12kim",
 	"imageUrl": "image.png",
 	"isPublic": false,
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 //group 조회하기
 ###
-Get http://localhost:3000/api/groups
+Get http://localhost:3000/api/groups?keyword=kaiiis&isPublic=false
 
 
 //group 조회 권한 확인

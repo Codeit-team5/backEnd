@@ -26,6 +26,7 @@ model Group {
   posts        Post[]   //postCount를 위해서 일대다 관계
   postCount    Int      @default(0) // 추가된 필드    //post가 추가될때 마다 추가 되는지 확인해야 함.
   badges       String?  @default("[]")//배지가 어떤 방식으로 추가되는지 모르겠음
+  badgeCount   Int      @default(0)
 }
 
 model Post {
@@ -43,6 +44,8 @@ model Post {
   createdAt DateTime @default(now())
   postPassword  String
   groupPassword String
+
+  postId    Int     //group당 post의 id. default를 사용하면 동적인 사용이 불가함.
   
   groupId   Int    // 외래 키 필드
   group     Group  @relation(fields: [groupId], references: [id])  
@@ -55,7 +58,18 @@ model Post {
 
 model Comment {
   id          Int      @id @default(autoincrement())
-  comments    Post    @relation(fields: [commentsId],references: [id])
-  commentsId  Int       @default(0)
+
+  //밑에 3개는 합쳐지기 전까지 default, 이후에 삭제
+  nickname    String    @default("nick")
+  content     String    @default("abcdef")
+  password    String    @default("password1234")
   createdAt   DateTime @default(now())
+
+  page        Int
+  pageSize    Int
+  
+  postId  Int     //외래키
+  post    Post    @relation(fields: [postId],references: [id])
+
+  commentId   Int   @unique//post당 comment의 id, unique이므로 null이 허용되지 않음
 }
