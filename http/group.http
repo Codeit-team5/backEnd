@@ -28,3 +28,18 @@ Content-Type : application/json
 //group 공개 여부 확인
 GET http://localhost:3000/api/groups/12/is-public
 
+###
+//group 수정
+PUT http://localhost:3000/api/groups/13
+
+###
+//group 삭제
+DELETE http://localhost:3000/api/groups/13
+
+###
+//group 상세 정보 조회
+GET http://localhost:3000/api/groups/13
+
+###
+//group 공감하기
+POST http://localhost:3000/api/groups/13/like

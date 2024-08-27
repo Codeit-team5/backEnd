@@ -100,11 +100,47 @@ async function findByIsPublic(group){
   })
 }
 
+//group 수정
+async function putByGroupId(Group){
+    const registerGroup = await prisma.group.putGroup({
+      data :{
+        name : Group.name,
+        password : Group.password,
+        imageUrl : Group.imageUrl,
+        isPublic : Group.isPublic,
+        introduction : Group.introduction,
+        postCount : (await prisma.post.count()) //post의 개수
+      },
+    })
+    return puttedGroup;
+};
+
+
+//그룹 삭제
+async function deleteByGroupId(groupId,groupPassword){
+  const {id} = groupId;
+  const { password } = groupPassword;   // Group 객체에서 id, password 추출
+  try{
+    deletedGroup = await prisma.group.delete({
+      where: {
+        id : id,
+        password : password
+      }
+    });
+      return deletedGroup; //삭제된 그룹 정보 반환 (없으면 null)
+  } catch (error){
+    throw error;
+  }
+
+};
+
 export default {
   create,
   registerList,
   list,
   findByPassword,
   findByGroupId,
-  findByIsPublic
+  findByIsPublic,
+  putByGroupId,
+  deleteByGroupId
 }

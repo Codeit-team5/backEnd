@@ -61,6 +61,74 @@ groupController.get('/api/groups/:groupId/is-public',async(req,res)=>{
     res.status(401).json({message : "잘못된 요청입니다"});
   }
 })
+/////////////////
+///////////group 수정
+const {wrongError, nonError} = require('./customerError'); //나만의 오류 단어
+
+
+groupController.put('/api/groups/:groupId',async(req,res)=>{
+  try{
+    const Id = req.params.groupId;
+    const openIsPublic = await groupService.open(Id);    //id, isPublic을 받아옴.
+    return res.json(openIsPublic);
+  }catch(error){
+    console.error("error!", error); // 에러 로그에 실제 오류를 출력하도록 수정
+    res.status(401).json({message : "잘못된 요청입니다"});
+  }
+})
+
+
+//group 삭제
+
+groupController.delete('/api/groups/:groupId',async(req,res)=>{
+  try{
+    const Id = req.params.groupId;
+    const password = req.body.password;
+    
+    await groupService.deleteGroup(groupId, groupPassword);
+
+    return res.status(200).json({message : "그룹 삭제 성공"});
+    }
+    catch(error){
+    if(error instanceof wrongError){
+      return res.status(401).json({message : "비밀번호가 틀렸습니다"});
+    }else if (error instanceof nonError){
+      return res.status(404).json({message : '존재하지 않습니다'});
+    }else{
+      console.error('error!',error);
+      return res.status(400).json({message : '잘못된 요청입니다'});
+    }
+  }
+});
+
+
+
+
+//group 상세 정보 조회
+groupController.get('/api/groups/:groupId',async(req,res)=>{
+  try{
+    const Id = req.params.groupId;
+    const openIsPublic = await groupService.open(Id);    //id, isPublic을 받아옴.
+    return res.json(openIsPublic);
+  }catch(error){
+    console.error("error!", error); // 에러 로그에 실제 오류를 출력하도록 수정
+    res.status(401).json({message : "잘못된 요청입니다"});
+  }
+})
+
+
+
+//group 공감하기
+groupController.post('/api/groups/:groupId/like',async(req,res)=>{
+  try{
+    const Id = req.params.groupId;
+    const openIsPublic = await groupService.open(Id);    //id, isPublic을 받아옴.
+    return res.json(openIsPublic);
+  }catch(error){
+    console.error("error!", error); // 에러 로그에 실제 오류를 출력하도록 수정
+    res.status(401).json({message : "잘못된 요청입니다"});
+  }
+})
 
 
 export default groupController;
