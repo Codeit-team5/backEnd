@@ -24,10 +24,18 @@ commentController.patch('/api/comments/:commentId', async(req,res)=>{
   try{
     const id = req.params.commentId;
     const fixedComment = await commentService.fix(id,req.body);
+
+    if(fixedComment == "wrongResponse"){
+      return res.status(400).json({message: "잘못된 요청입니다"})
+    }
+    else if(fixedComment == "wrongPassword"){
+      return res.status(403).json({message: "비밀번호가 틀렸습니다"})
+    }
+
     return res.json(fixedComment);
   }catch(error) {
     console.error("error!", error); // 에러 로그에 실제 오류를 출력하도록 수정
-    res.status(400).json({message : "잘못된 요청입니다"});
+    res.status(404).json({message: "존재하지 않습니다"});
   }
 })
 

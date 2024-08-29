@@ -26,7 +26,6 @@ async function updateComment(commentId,newComment) {
     data:{
       nickname:newComment.nickname,
       content:newComment.content,
-      password:newComment.password
     },
     select:{
       commentId:true,
@@ -37,7 +36,21 @@ async function updateComment(commentId,newComment) {
   })
 }
 
+//commentId의 password를 return함.
+async function findByPassword(commentId){
+  return prisma.comment.findFirst({
+    where:{
+      commentId:parseInt(commentId,10)
+    },
+    select:{
+      password:true
+    }
+  })
+}
+
+
 export default {
   selectiveList,
-  updateComment
+  updateComment,
+  findByPassword
 }
