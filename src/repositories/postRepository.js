@@ -189,7 +189,7 @@ async function deleteByPostId(postId,postPassword){
 
   //post 상세정보조회
   async function findDetailByPostId(postId){
-    const {postId} = postId;
+    const {id} = postId;
     return await prisma.post.findMany({
       where :{
         id : id

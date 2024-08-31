@@ -40,6 +40,38 @@ commentController.patch('/api/comments/:commentId', async(req,res)=>{
 })
 
 
+//댓글 등록하기
+commentController.post('/api/comments/:commentId', async(req,res)=>{
+  const postComment = await commentService.post(commentId);
+  try{
+    return res.status(200).json({
+      "id": json.params(commentId,10),
+	    "nickname": postComment.nickname,
+	    "content": postComment.content,
+	    "createdAt": postComment.createdAt
+    })
+  }catch(error){
+    console.error("error!",error);
+    res.status(400).json({message : "잘못된 요청입니다"});
+  }
+})
+
+//댓글 삭제
+commentController.delete('/api/comments/:commentId', async(req,res)=>{
+  const delCom = await commentService.deleteCtService(commentId);
+  try{
+    if(delCom=='badRequest'){
+      return res.status(400).json({message : "잘못된 요청입니다"});
+    }
+    else if(delCom=='forbidden'){
+      return res.status(403).json({message : "비밀번호가 틀렸습니다"});
+    }
+  }catch(error){
+    console.error("error!",error);
+    return res.status(404).json({message : "존재하지 않습니다"});
+  }
+})
+
 
 
 export default commentController;

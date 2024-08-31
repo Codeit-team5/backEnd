@@ -119,7 +119,7 @@ groupController.delete('/api/groups/:groupId',async(req,res)=>{
       return res.status(404).json({message :'존재하지 않습니다' });
     }
   }
-});
+})
 
 //group 상세정보조회
 groupController.get('/api/groups/:groupId',async(req,res)=>{
