@@ -81,11 +81,27 @@ async function deletePost(postId, postPassword){
 return await postRepository.deleteByPostId(postId,postPassword);
 }
 
+//post 상세정보조회
+async function findDetailPost(postId) {
+  const detailPost = await postRepository.list(postId); //레포지토리의 list를 할당
+  if(!detailPost){
+    return 'thereIsNoPostId'
+  }
+  return await groupRepository.findDetailByPostId(postId);
+}
+
+//post 공감하기
+async function likePostService(postId) {
+  const likeGroup = await groupRepository.findByGroupId(groupId);
+  return await groupRepository.likeByGroupId(groupId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
+}
+
 export default {
   register,
   show,
   compare,
   open,
   fixPost,
-  deletePost
+  deletePost,
+  findDetailPost
 };
