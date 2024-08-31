@@ -23,8 +23,31 @@ async function fix(commentId,newComment){
 
 }
 
+//댓글 등록하기
+async function post(commentId){
+  const postComment = await commentRepository.getComment(commentId);
+
+  return await commentRepository.getComment(commentId);
+}
+
+//댓글 삭제하기
+async function deleteCtService(commentId){
+  const delComment = await commentRepository.deleteComment(commentId);
+  const delPassword = await commentRepository.findByPassword(commentId);
+
+  if (!delComment){
+    return 'badRequest';
+  }
+  if(delPassword.password!==commentPassword.password){
+    return 'forbidden';
+  }
+return await groupRepository.deleteByGroupId(groupId,groupPassword);
+}
+
 
 export default{
   show,
-  fix
+  fix,
+  post,
+  deleteCtService
 }

@@ -48,9 +48,36 @@ async function findByPassword(commentId){
   })
 }
 
+//comment 등록하기
+async function getComment(commentId){
+  return prisma.comment.findMany({
+    where : {
+      nickname : nickname,
+      content : content,
+      password : password
+    },
+    select : {
+      "id": true,
+      "nickname": true,
+      "content": true,
+      "createdAt": true
+    }
+  })
+}
+
+//comment 삭제하기
+async function deleteComment(commentId){
+  return prisma.comment.findMany({
+    where : {
+      password : password
+    }
+  })
+}
 
 export default {
   selectiveList,
   updateComment,
-  findByPassword
+  findByPassword,
+  getComment,
+  deleteComment
 }
