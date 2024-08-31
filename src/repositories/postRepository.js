@@ -187,6 +187,44 @@ async function deleteByPostId(postId,postPassword){
     throw error;
   }};
 
+  //post 상세정보조회
+  async function findDetailByPostId(postId){
+    const {postId} = postId;
+    return await prisma.post.findMany({
+      where :{
+        id : id
+      },
+      select:{
+        "id": true,
+        "groupId": true,
+        "nickname": true,
+        "title": true,
+        "content": true,
+        "imageUrl": true,
+        "tags": true,
+        "location": true,
+        "moment": true,
+        "isPublic": true,
+        "likeCount": true,
+        "commentCount": true,
+        "createdAt": true
+      }   
+      })
+    }
+  
+  //post 공감하기
+  async function likeByPostId(postId){
+    return await prisma.post.findMany({
+      where : {
+        postId:parseInt(postId,10)
+      },
+      data : {
+          likeCount : {
+            increase : 1
+          }
+        }
+      })
+    }
 
 export default {
   findPostIdByGroupId,
@@ -196,5 +234,7 @@ export default {
   findByPassword,
   findByIsPublic,
   fixByPostId,
-  deleteByPostId
+  deleteByPostId,
+  findDetailByPostId,
+  likeByPostId
 }

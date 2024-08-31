@@ -124,4 +124,21 @@ postController.delete('/api/posts/:postId',async(req,res)=>{
   }
 });
 
+//group 상세정보조회
+postController.get('/api/posts/:postId',async(req,res)=>{
+  try{
+    const postId = req.params.postId;
+    const detail = await postService.findDetailPost(postId);
+    return res.status(200).json(detail);
+
+}catch(error){
+  if(detail=="thereIsNoPostId"){
+    return res.status(400).json({message :"잘못된 요청입니다" });
+  }else{
+    console.error('error!',error);
+    return res.status(404).json({message :"404오류" });
+    }
+}
+})
+
 export default postController;

@@ -105,7 +105,7 @@ groupController.delete('/api/groups/:groupId',async(req,res)=>{
     const Id = req.params.groupId;
     const password = req.body.password;
     
-    await groupService.deleteGroup(groupId, groupPassword);
+    await groupService.deleteGroup(Id, password);
 
     return res.status(200).json({message : "그룹 삭제 성공"});
     }
@@ -120,6 +120,55 @@ groupController.delete('/api/groups/:groupId',async(req,res)=>{
     }
   }
 });
+
+//group 상세정보조회
+groupController.get('/api/groups/:groupId',async(req,res)=>{
+  try{
+    const groupId = req.params.groupId;
+    const detail = await groupService.findDetailGroup(groupId);
+    return res.status(200).json(detail);
+
+}catch(error){
+  if(detail=="thereIsNoGroupId"){
+    return res.status(400).json({message :"잘못된 요청입니다" });
+  }else{
+    console.error('error!',error);
+    return res.status(404).json({message :"404오류" });
+    }
+}
+})
+
+/*group 공개여부확인
+groupController.get('/api/groups/:groupId',async(req,res)=>{
+  try{
+    const groupId = req.params.groupId;
+    const openPublic = await groupService.openPublicGroup(groupId);
+    return res.status(200).json(openPublic);
+
+}catch(error){
+  if(openPublic=="thereIsNoGroupId"){
+    return res.status(400).json({message :"잘못된 요청입니다" });
+  }else{
+  console.error('error!',error);
+  return res.status(404).json({message :"404오류" });
+  }
+}
+})
+*/
+
+//그룹 공감하기
+groupController.post('/api/groups/:groupId/like',async(req,res)=>{
+  try{
+    const groupId = req.params.groupId;
+    const likePublicController = await groupService.likeGroupService(groupId);
+    return res.status(200).json({message : "그룹 공감하기 성공"});
+
+}catch(error){
+  console.error('error!',error);
+  return res.status(404).json({message :"존재하지 않습니다" });
+  }
+})
+
 
 
 export default groupController;

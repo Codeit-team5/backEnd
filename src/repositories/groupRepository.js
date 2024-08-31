@@ -114,22 +114,22 @@ async function fixByGroupId(groupId, newGroup){
       groupId:parseInt(groupId,10)
     },
     data :{
-      name : newGroup.name,
-      password : newGroup.password,
-      imageUrl : newGroup.imageUrl,
-      isPublic : newGroup.isPublic,
-      introduction : newGroup.introduction
+      "name" : newGroup.name,
+      "password" : newGroup.password,
+      "imageUrl" : newGroup.imageUrl,
+      "isPublic" : newGroup.isPublic,
+      "introduction" : newGroup.introduction
     },
     select:{
-      id : true,
-      name : true,
-      imageUrl : true,
-      isPublic : true,
-      likeCount : true,
-      badges : true,
-      postCount : true,
-      createdAt : true,
-      introduction : true
+      "id" : true,
+      "name" : true,
+      "imageUrl" : true,
+      "isPublic" : true,
+      "likeCount" : true,
+      "badges" : true,
+      "postCount" : true,
+      "createdAt" : true,
+      "introduction" : true
     }
   })
 };
@@ -151,6 +151,55 @@ async function deleteByGroupId(groupId,groupPassword){
     throw error;
   }};
 
+// group 상세정보조회
+async function findDetailByGroupId(groupId){
+  return await prisma.group.findMany({
+    where : {
+      groupId:parseInt(groupId,10)
+    },
+    select : {
+      "id": true,
+      "name" : true,
+      "imageUrl": true,
+      "isPublic": true,
+      "likeCount": true,
+      "badges" : true,
+      "postCount": true,
+      "createdAt": true,
+      "introduction": true
+    }
+    })
+  }
+  
+
+/*group 공개여부확인
+async function openPublicByGroupId(groupId){
+  return await prisma.post.findMany({
+    where : {
+      groupId:parseInt(groupId,10)
+    },
+    select : {
+      id: true,
+      isPublic: true
+    }
+    })
+  }*/
+
+  //그룹 공감하기
+  async function likeByGroupId(groupId){
+    return await prisma.group.findMany({
+      where : {
+        groupId:parseInt(groupId,10)
+      },
+      data : {
+          likeCount : {
+            increase : 1
+          }
+        }
+      })
+    }
+
+
 export default {
   create,
   registerList,
@@ -159,5 +208,8 @@ export default {
   findByGroupId,
   findByIsPublic,
   fixByGroupId,
-  deleteByGroupId
+  deleteByGroupId,
+  findDetailByGroupId,
+  //openPublicByGroupId,
+  likeByGroupId
 }

@@ -13,7 +13,7 @@ api.use('',groupController); //나중에 /api 없애도 되는지 확인하기
 api.use('',postController); //나중에 /api 없애도 되는지 확인하기
 api.use('',commentController);
 
-const port = process.env.PORT ?? 3000;
+const port = process.env.PORT ?? 5432;
 api.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

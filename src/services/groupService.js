@@ -53,7 +53,7 @@ async function fixGroup(groupId, newGroup){
 
 //id를 받아서 입력과 같은 id라면 삭제.
 async function deleteGroup(groupId, groupPassword){
-    const deletedGroup = await groupRepository.deleteByGroupId(groupId, groupPassword);
+    const deletedGroup = await groupRepository.findByPassword(groupId);
   
     if (!deletedGroup){
       return 'nonError';
@@ -64,11 +64,39 @@ async function deleteGroup(groupId, groupPassword){
   return await groupRepository.deleteByGroupId(groupId,groupPassword);
   }
 
+//group 상세정보조회
+async function findDetailGroup(groupId) {
+  const detailGroup = await groupRepository.findByGroupId(groupId); //레포지토리의 list를 할당
+  if(!detailGroup){
+    return 'thereIsNoGroupId'
+  }
+  return await groupRepository.findDetailByGroupId(groupId);
+}
+
+/* group 공개여부확인
+async function openPublicGroup(groupId) {
+  const publicGroup = await groupRepository.openPublicByGroupId(groupId);
+  if(!publicGroup){
+    return 'thereIsNoGroupId'
+  }
+  return await groupRepository.openPublicByGroupId(groupId);
+}
+*/
+
+//group 공감하기
+async function likeGroupService(groupId) {
+  const likeGroup = await groupRepository.findByGroupId(groupId);
+  return await groupRepository.likeByGroupId(groupId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
+}
+
 export default {
   register,
   deleteGroup,
   fixGroup,
   show,
   compare,
-  open
+  open,
+  findDetailGroup,
+  //openPublicGroup,
+  likeGroupService
 };
