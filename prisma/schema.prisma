@@ -47,7 +47,7 @@ model Post {
 
   postId    Int     //group당 post의 id. default를 사용하면 동적인 사용이 불가함.
   
-  groupId   Int    // 외래 키 필드
+  groupId   Int    @unique// 외래 키 필드
   group     Group  @relation(fields: [groupId], references: [id])  
   //fields는 현재 모델(POST)의 외래키, references는 참조 대상(Group)의 pk
 

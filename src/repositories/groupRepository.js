@@ -78,7 +78,6 @@ async function findByGroupId(groupId){
 
 //비밀번호 찾기
 async function findByPassword(group){   //해당하는 group를 전달받음.
-  const { password } = group;  // Group 객체에서 password만 추출
   return await prisma.group.findFirst({
     where : {
       id : parseInt(group,10)         //where 절은 unique 아니면 default 등만 가능//
@@ -137,20 +136,6 @@ async function fixByGroupId(groupId, newGroup){
 
 //그룹 삭제
 async function deleteByGroupId(groupId){
-  /*try catch문 필요가 없음.
-  예상치 못한 곳에서 오류가 발생할 수 있음
-  const {id} = groupId;
-  const { password } = groupPassword;   // Group 객체에서 id, password 추출
-  try{
-    deletedGroup = await prisma.group.delete({
-      where: {
-        id : id,
-        password : password
-      }
-    });
-      return deletedGroup; //삭제된 그룹 정보 반환 (없으면 null)
-  } catch (error){
-    throw error;*/
     return await prisma.group.delete({
       where:{
         id : parseInt(groupId,10)
@@ -158,6 +143,43 @@ async function deleteByGroupId(groupId){
     })
 
   };
+
+
+
+  // group 상세정보조회
+async function findDetailByGroupId(groupId){
+  return await prisma.group.findMany({
+    where : {
+      id:parseInt(groupId,10)
+    },
+    select : {
+      "id": true,
+      "name" : true,
+      "imageUrl": true,
+      "isPublic": true,
+      "likeCount": true,
+      "badges" : true,
+      "postCount": true,
+      "createdAt": true,
+      "introduction": true
+    }
+    })
+  }
+
+  //그룹 공감하기
+  async function likeByGroupId(groupId){
+    return await prisma.group.update({
+      where : {
+        id:parseInt(groupId,10)
+      },
+      data : {
+          likeCount : {
+            increment : 1
+          }
+        }
+      })
+    }
+
 
 export default {
   create,
@@ -167,5 +189,7 @@ export default {
   findByGroupId,
   findByIsPublic,
   fixByGroupId,
-  deleteByGroupId
+  deleteByGroupId,
+  findDetailByGroupId,
+  likeByGroupId
 }

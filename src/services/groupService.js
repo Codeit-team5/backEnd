@@ -9,17 +9,19 @@ async function show(keyword,isPublic){       //목록을 보여줌.
   return groupRepository.list(keyword,isPublic);
 }
 
+
+///////////////////////////////////////////////////////////////
 //비밀번호를 비교해서 return을 설정해야 함.
 async function compare(groupId,sendPassword){  //GroupId와 req로 보낸 password를 비교
   //grouId로 group를 찾음
-  const findGroup = await groupRepository.findByGroupId(groupId);
-  const restorePassword = await groupRepository.findByPassword(findGroup);
- 
+  const findGroup = await groupRepository.findByPassword(groupId);
   //둘 다 객체이기 때문에 아래와 같이 비교해야함.
-  if (restorePassword.password===sendPassword.password){
+
+  if (findGroup.password===sendPassword.password){
     return true;
   }
   else{return false;};
+ 
 }
 
 
@@ -53,18 +55,9 @@ async function fixGroup(groupId, newGroup){
 
 //id를 받아서 입력과 같은 id라면 삭제.
 async function deleteGroup(groupId, groupPassword){
-    /*const deletedGroup = await groupRepository.deleteByGroupId(groupId, groupPassword);
-  
-    //어떤의미로 만들었는지
-    if (!deletedGroup){
-      return 'nonError';
-    }*/
-
     //id가 맞는지 비교하려면 비밀 번호를 db에서 접근을 먼저 해야함.
     const findPassword = await groupRepository.findByPassword(groupId);
 
-    console.log(findPassword.password);
-    //비밀 번호 맞는지 확인
     if(findPassword.password!==groupPassword){   //controller에서 이미 password를 빼놨음
       return 'wrongError';
     }
@@ -73,11 +66,29 @@ async function deleteGroup(groupId, groupPassword){
   }
 
 
+//group 상세정보조회
+async function findDetailGroup(groupId) {
+  const detailGroup = await groupRepository.findByGroupId(groupId); //레포지토리의 list를 할당
+  if(!detailGroup){
+    return 'thereIsNoGroupId'
+  }
+  return await groupRepository.findDetailByGroupId(groupId);
+}
+
+
+//group 공감하기
+async function likeGroupService(groupId) {
+  const plusLike = await groupRepository.likeByGroupId(groupId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
+  
+}
+
 export default {
   register,
+  deleteGroup,
+  fixGroup,
   show,
   compare,
   open,
-  fixGroup,
-  deleteGroup
+  findDetailGroup,
+  likeGroupService
 };

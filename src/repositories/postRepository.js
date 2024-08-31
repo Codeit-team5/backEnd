@@ -21,7 +21,7 @@ async function create(Post,groupById,newPostId) {
 
   const registerPost = await prisma.post.create({
     data:{
-      "groupId": parseInt(groupById, 10),
+      //"groupId": parseInt(groupById, 10),
       "nickname": Post.nickname,
       "title": Post.title,
       "content": Post.content,
@@ -140,7 +140,7 @@ async function findByIsPublic(postId){
 async function fixByPostId(postId, newPost){
   return await prisma.post.update({
     where:{
-      postId:parseInt(postId,10)
+      id:parseInt(postId,10)
     },
     data :{
       nickname : newPost.nickname,

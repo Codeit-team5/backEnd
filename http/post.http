@@ -1,5 +1,5 @@
 //post 등록하기
-POST http://localhost:3000/api/groups/2/posts
+POST http://localhost:3000/api/groups/4/posts
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 //post 조회하기
-GET http://localhost:3000/api/groups/2/posts?keyword=tel&isPublic=false
+GET http://localhost:3000/api/groups/2/posts?keyword=telc&isPublic=true
 
 ###
 //비밀번호 확인
@@ -31,3 +31,21 @@ Content-Type : application/json
 ###
 //post 공개 여부 확인
 GET http://localhost:3000/api/posts/42/is-public
+
+
+###
+//post 수정하기
+PATCH http://localhost:3000/api/posts/44
+Content-Type : application/json
+
+{
+	"nickname": "string",
+	"title": "string",
+	"content": "string",
+	"postPassword": "password1234",
+	"imageUrl": "string",
+	"tags": [ "string", "string" ],
+	"location": "string",
+	"moment": "2024-02-21",
+	"isPublic": true
+}

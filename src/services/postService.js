@@ -47,7 +47,7 @@ async function open(postId){
 /////////////////////////////////////////////////////////////////////
 //id와 객체를 받아서 그룹 수정
 async function fixPost(postId, newPost){
-  const groupPass = await groupRepository.findByPassword(groupId);
+  const groupPass = await postRepository.findByPassword(postId);
 
   //양식을 입력하기 않았을 때
   if(newPost.nickname == null,
@@ -62,7 +62,7 @@ async function fixPost(postId, newPost){
       return "wrongFixPostResponse";
     }
     //비밀 번호가 같지 않을 때
-  if(groupPass.password !=newPost.password){
+  if(groupPass.postPassword !=newPost.postPassword){
     return "wrongFixPostPassword";
   }
 
