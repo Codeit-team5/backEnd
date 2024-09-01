@@ -1,5 +1,5 @@
 //post 등록하기
-POST http://localhost:3000/api/groups/33/posts
+POST http://localhost:3000/api/groups/36/posts
 Content-Type: application/json
 
 {
@@ -17,25 +17,25 @@ Content-Type: application/json
 
 ###
 //post 조회하기
-GET http://localhost:3000/api/groups/33/posts?keyword=telc&isPublic=true
+GET http://localhost:3000/api/groups/36/posts?keyword=telc&isPublic=true
 
 ###
 //비밀번호 확인
-POST http://localhost:3000/api/posts/31/verify-password
+POST http://localhost:3000/api/posts/32/verify-password
 Content-Type : application/json
 
 {
-  "password": "password123"
+  "password": "password1234"
 }
 
 ###
 //post 공개 여부 확인
-GET http://localhost:3000/api/posts/31/is-public
+GET http://localhost:3000/api/posts/32/is-public
 
 
 ###
 //post 수정하기
-PATCH http://localhost:3000/api/posts/31
+PATCH http://localhost:3000/api/posts/32
 Content-Type : application/json
 
 {
@@ -52,7 +52,7 @@ Content-Type : application/json
 
 ###
 //post 삭제하기
-DELETE http://localhost:3000/api/posts/31
+DELETE http://localhost:3000/api/posts/32
 Content-Type : application/json
 
 {

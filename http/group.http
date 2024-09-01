@@ -12,16 +12,16 @@ Content-Type: application/json
 
 //group 조회하기
 ###
-Get http://localhost:3000/api/groups?keyword=real&isPublic=false
+Get http://localhost:3000/api/groups?keyword=real3&isPublic=false
 
 
 //비밀번호
 ###
-POST http://localhost:3000/api/groups/31/verify-password
+POST http://localhost:3000/api/groups/36/verify-password
 Content-Type : application/json
 
 {
-  "password": "12ki"
+  "password": "password1234"
 }
 
 ###
@@ -51,8 +51,8 @@ Content-Type : application/json
 
 ###
 //상세 내역 조회
-GET http://localhost:3000/api/groups/30
+GET http://localhost:3000/api/groups/36
 
 ###
 //게시글 공감하기
-POST http://localhost:3000/api/groups/30/like
+POST http://localhost:3000/api/groups/36/like
