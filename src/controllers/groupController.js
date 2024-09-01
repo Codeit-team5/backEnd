@@ -126,17 +126,16 @@ groupController.get('/api/groups/:groupId',async(req,res)=>{
   try{
     const groupId = req.params.groupId;
     const detail = await groupService.findDetailGroup(groupId);
+    if(detail=="thereIsNoGroupId"){
+      return res.status(400).json({message :"잘못된 요청입니다" });
+    }
     return res.status(200).json(detail);
-
 }catch(error){
-  if(detail=="thereIsNoGroupId"){
-    return res.status(400).json({message :"잘못된 요청입니다" });
-  }else{
     console.error('error!',error);
     return res.status(404).json({message :"404오류" });
     }
-}
-})
+  })
+
 
 /*group 공개여부확인
 groupController.get('/api/groups/:groupId',async(req,res)=>{

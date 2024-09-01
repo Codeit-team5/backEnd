@@ -1,0 +1,11 @@
+//image url 생성하기
+POST http://localhost:3000//api/image
+Content-Type: application/json
+
+{
+	"name": "kaiiis",
+	"password": "12kim",
+	"imageUrl": "image.png",
+	"isPublic": true,
+	"introduction": "first blog"
+}
