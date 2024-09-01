@@ -21,12 +21,12 @@ async function create(Post,groupById,newPostId) {
 
   const registerPost = await prisma.post.create({
     data:{
-      //"groupId": parseInt(groupById, 10),
+      "groupId": parseInt(groupById, 10),
       "nickname": Post.nickname,
       "title": Post.title,
       "content": Post.content,
       "imageUrl": Post.imageUrl,
-      "tags": JSON.stringify(Post.tags), // tags 배열을 JSON 문자열로 변환
+      //"tags": JSON.stringify(Post.tags), // tags 배열을 JSON 문자열로 변환
       "location": Post.location,
       "moment": new Date(Post.moment), // moment를 Date 객체로 변환
       "isPublic": Post.isPublic,
@@ -67,9 +67,9 @@ async function list(groupById){
 	    "title": true,
 	    "content": true,
 	    "imageUrl": true,
-	    "tags": true,
+	    //"tags": true,
 	    "location": true,
-	    "moment": true,
+	    //"moment": true,
 	    "isPublic": true,
 	    "likeCount": true,
 	    "commentCount": true,
@@ -88,7 +88,7 @@ async function selectiveList(groupById,keyword,groupByIsPublic){
       //contain으로 포함이 되어 확인함.
       OR: [
         { title: { contains: keyword } }, // title에 keyword가 포함된 경우
-        { tags: { contains: keyword } },  // tags 배열에 keyword가 포함된 경우
+        //{ tags: { contains: keyword } },  // tags 배열에 keyword가 포함된 경우
       ],
       isPublic : groupByIsPublic
     },
@@ -148,7 +148,7 @@ async function fixByPostId(postId, newPost){
       content : newPost.imageUrl,
       postPassword : newPost.postPassword,
       imageUrl : newPost.imageUrl,
-      tags :newPost.tags,
+      //tags :newPost.tags,
       location :newPost.location,
       moment :newPost.moment,
       isPublic :newPost.isPublic
@@ -160,34 +160,77 @@ async function fixByPostId(postId, newPost){
       title : true,
       content : true,
       imageUrl : true,
-      tags : true,
+      //tags : true,
       location : true,
       moment : true,
       isPublic : true,
       likeCount : true,
-      badges : true,
       commentCount : true,
       createdAt : true
     }
   })
 };
 
-//post 삭제
-async function deleteByPostId(postId,postPassword){
-  const {id} = postId;
-  const { password } = postPassword;
-  try{
-    deletedPost = await prisma.post.delete({
-      where: {
-        id : id,
-        password : password
-      }
-    });
-      return deletedPost; //삭제된 정보 반환 (없으면 null)
-  } catch (error){
-    throw error;
-  }};
 
+
+//post 삭제
+async function deleteByPostId(postId){
+  return await prisma.post.delete({
+    where: {
+      id : parseInt(postId,10)
+  }});
+}
+
+
+//postId 조회
+async function findByPostId(postId){
+  return await prisma.post.findFirst({
+    where:{
+      id:parseInt(postId,10)
+    }
+  })
+}
+
+
+
+// post 상세정보조회
+async function findDetailByPostId(postId){
+  return await prisma.post.findMany({
+    where : {
+      id:parseInt(postId,10)
+    },
+    select : {
+      "id": true,
+      "groupId": true,
+      "nickname": true,
+      "title": true,
+      "content": true,
+      "imageUrl": true,
+      //"tags": true,
+      "location": true,
+      //"moment": true,
+      "isPublic": true,
+      "likeCount": true,
+      "commentCount": true,
+      "createdAt": true
+    }
+    })
+  }
+
+
+  //공감 1 추가하기
+  async function likeByGroupId(postId){
+    return await prisma.post.update({
+      where:{
+        id:parseInt(postId,10)
+      },
+      data : {
+        likeCount : {
+          increment : 1
+        }
+      }
+    })
+  }
 
 export default {
   findPostIdByGroupId,
@@ -197,5 +240,8 @@ export default {
   findByPassword,
   findByIsPublic,
   fixByPostId,
-  deleteByPostId
+  deleteByPostId,
+  findByPostId,
+  findDetailByPostId,
+  likeByGroupId
 }

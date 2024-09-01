@@ -36,7 +36,7 @@ model Post {
   title     String    @default("")
   content   String    @default("")
   imageUrl  String    @default("")
-  tags      String   @default("[]")
+  tags      String[]   @default([])
   location  String   @default("")
   moment    DateTime   @default(now())    //양식에 따라 이후에 변경해야함
   isPublic  Boolean @default(true)
@@ -47,7 +47,7 @@ model Post {
 
   postId    Int     //group당 post의 id. default를 사용하면 동적인 사용이 불가함.
   
-  groupId   Int    @unique// 외래 키 필드
+  groupId   Int    // 외래 키 필드
   group     Group  @relation(fields: [groupId], references: [id])  
   //fields는 현재 모델(POST)의 외래키, references는 참조 대상(Group)의 pk
 
@@ -65,11 +65,11 @@ model Comment {
   password    String    @default("password1234")
   createdAt   DateTime @default(now())
 
-  page        Int
-  pageSize    Int
+  page        Int?
+  pageSize    Int?
   
   postId  Int     //외래키
   post    Post    @relation(fields: [postId],references: [id])
 
-  commentId   Int   @unique//post당 comment의 id, unique이므로 null이 허용되지 않음
+  commentId   Int   //post당 comment의 id, unique이므로 null이 허용되지 않음
 }

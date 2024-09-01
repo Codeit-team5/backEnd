@@ -1,5 +1,22 @@
 import commentRepository from '../repositories/commentRepository.js';
 
+//댓글 등록하기
+async function register(postId,newComment){
+  const oldCommentId = await commentRepository.findCommentIdByPostId(postId);
+
+  //commentId에 1을 추가하거나 commentId가 없었으면 1로 등록함.
+  let newCommentId;
+  if (oldCommentId && oldCommentId.commentId) {
+    newCommentId = oldCommentId.commentId + 1;
+  } else {
+    newCommentId = 1;
+  }
+
+  const createComment = await commentRepository.getComment(postId,newComment,newCommentId);
+
+  return await commentRepository.list(postId)
+}
+
 //댓글 목록 보여주기
 async function show(postId){
   return await commentRepository.selectiveList(postId);
@@ -24,7 +41,25 @@ async function fix(commentId,newComment){
 }
 
 
+//댓글 삭제하기
+async function deletetService(commentId,deletePassword){
+  const delPassword = await commentRepository.findByPassword(commentId);
+
+  if (deletePassword === null){
+    return 'badRequest';
+  }
+  if(delPassword.password!==deletePassword.password){
+    return 'forbidden';
+  }
+return await commentRepository.deleteComment(commentId);
+}
+
+
+
+
 export default{
+  register,
   show,
-  fix
+  fix,
+  deletetService
 }

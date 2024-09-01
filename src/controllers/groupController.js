@@ -4,6 +4,7 @@ import groupService from '../services/groupService.js';
 const groupController = express.Router();
 
 
+//method 옆에 있는 것이 uri, http 파일에 자세히 있음
 //그룹 등록
 groupController.post('/api/groups',async(req,res)=>{
   
@@ -23,13 +24,13 @@ groupController.get('/api/groups',async(req,res)=>{
   try{
     const keyword = req.query.keyword;         //제목과 태그에 포함 된 것을 검색하는 것임.
     const isPublicString = req.query.isPublic;
-
     
     //isPublicString을 stirng => boolean
     let isPublic = true;
-    if(isPublicString == "true"){
-      isPublic = true;
-    }else if(isPublicString == 'false'){
+    if(isPublicString == 'true'){
+       isPublic = true;
+      }
+    else if(isPublicString == 'false'){
       isPublic = false;
     }
     else{

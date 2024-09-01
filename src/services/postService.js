@@ -72,16 +72,42 @@ async function fixPost(postId, newPost){
 
 //id를 받아서 입력과 같은 id라면 삭제.
 async function deletePost(postId, postPassword){
-  const deletedPost = await postRepository.deleteByPostId(postId, postPassword);
+  const deletedPost = await postRepository.findByPassword(postId);
 
-  if (!deletedPost){
-    return 'nonPostError';
-  }
-  if(deletedpost.password!==postPassword.password){
+  if(deletedPost.postPassword!==postPassword){
     return 'wrongPostPassError';
-  }
-return await postRepository.deleteByPostId(postId,postPassword);
+  }else if(postPassword==null){
+    return "nonPostError";
+  };
+
+  return await postRepository.deleteByPostId(postId,postPassword);
 }
+
+  //post 상세정보조회
+  async function findDetailPost(postId) {
+    const findPostId = await postRepository.findByPostId(postId);
+
+    //postId에 해당하는 내용 없을 때
+    if(findPostId == null){
+      return "thereIsNoPostId"
+    }
+
+    return await postRepository.findDetailByPostId(postId);
+  }
+  
+  //post 공감하기
+  async function plusLike(postId) {
+    const likeGroup = await postRepository.findByPostId(postId)
+
+    //postId에 해당하는 내용 없을 때
+    if(likeGroup == null){
+      return "thereIsNoPostId"
+    }
+
+    const plusLike = await postRepository.likeByGroupId(postId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
+  }
+
+
 
 export default {
   register,
@@ -89,5 +115,7 @@ export default {
   compare,
   open,
   fixPost,
-  deletePost
+  deletePost,
+  findDetailPost,
+  plusLike
 };

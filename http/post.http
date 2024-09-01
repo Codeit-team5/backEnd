@@ -1,15 +1,15 @@
 //post 등록하기
-POST http://localhost:3000/api/groups/4/posts
+POST http://localhost:3000/api/groups/33/posts
 Content-Type: application/json
 
 {
-	"nickname": "kllsdfdsfsdfsdm",
+	"nickname": "real",
 	"title": "telc",
 	"content": "ffffxxf",
 	"postPassword": "password1234",
 	"groupPassword": "password123456",
 	"imageUrl": "string",
-	"tags": [ "tel", "100등"],
+	//"tags": ["tel", "100등"],  // 배열 형식
 	"location": "string",
 	"moment": "2024-02-21",
 	"isPublic": true
@@ -17,35 +17,53 @@ Content-Type: application/json
 
 ###
 //post 조회하기
-GET http://localhost:3000/api/groups/2/posts?keyword=telc&isPublic=true
+GET http://localhost:3000/api/groups/33/posts?keyword=telc&isPublic=true
 
 ###
 //비밀번호 확인
-POST http://localhost:3000/api/posts/39/verify-password
+POST http://localhost:3000/api/posts/31/verify-password
 Content-Type : application/json
 
 {
-  "password": "password1234"
+  "password": "password123"
 }
 
 ###
 //post 공개 여부 확인
-GET http://localhost:3000/api/posts/42/is-public
+GET http://localhost:3000/api/posts/31/is-public
 
 
 ###
 //post 수정하기
-PATCH http://localhost:3000/api/posts/44
+PATCH http://localhost:3000/api/posts/31
 Content-Type : application/json
 
 {
 	"nickname": "string",
-	"title": "string",
+	"title": "stringddddd",
 	"content": "string",
 	"postPassword": "password1234",
 	"imageUrl": "string",
-	"tags": [ "string", "string" ],
+	//"tags": [ "string", "string" ],
 	"location": "string",
-	"moment": "2024-02-21",
+	//"moment": "2024-02-21",
 	"isPublic": true
 }
+
+###
+//post 삭제하기
+DELETE http://localhost:3000/api/posts/31
+Content-Type : application/json
+
+{
+	"postPassword": "password1234"
+}
+
+###
+//post 상세 조회
+GET http://localhost:3000/api/posts/30
+
+
+###
+//post 공감 추가하기
+POST http://localhost:3000/api/posts/30/like
