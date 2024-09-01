@@ -58,7 +58,7 @@ groupController.post('/api/groups/:groupId/verify-password',async(req,res)=>{
     }
   }catch(error){
     console.error("error!", error); // 에러 로그에 실제 오류를 출력하도록 수정
-    res.status(401).json({message : "잘못된 요청입니다"});
+    res.status(404).json({message : "잘못된 요청입니다"});
 
   }
 })

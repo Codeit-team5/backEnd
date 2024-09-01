@@ -62,10 +62,9 @@ async function deleteGroup(groupId, groupPassword){
 
     //id가 맞는지 비교하려면 비밀 번호를 db에서 접근을 먼저 해야함.
     const findPassword = await groupRepository.findByPassword(groupId);
-
-    console.log(findPassword.password);
+    
     //비밀 번호 맞는지 확인
-    if(findPassword.password!==groupPassword){   //controller에서 이미 password를 빼놨음
+    if(findPassword.password!==groupPassword){   //controller에서 이미 password를 빼놨음, 이미 string이니까
       return 'wrongError';
     }
 

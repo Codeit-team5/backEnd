@@ -12,10 +12,9 @@ Content-Type: application/json
 
 //group 조회하기
 ###
-Get http://localhost:3000/api/groups?keyword=kaiiis&isPublic=true
 
 ###
-POST http://localhost:3000/api/groups/27/verify-password
+POST http://localhost:3000/api/groups/18/verify-password
 Content-Type : application/json
 
 {
@@ -24,11 +23,11 @@ Content-Type : application/json
 
 ###
 //group 공개 여부 확인
-GET http://localhost:3000/api/groups/12/is-public
+GET http://localhost:3000/api/groups/18/is-public
 
 ###
 //group 수정 여부 확인
-PATCH http://localhost:3000/api/groups/36
+PATCH http://localhost:3000/api/groups/18
 Content-Type : application/json
 
 {
@@ -39,9 +38,9 @@ Content-Type : application/json
 	"isPublic": false
 }
 ###
-DELETE http://localhost:3000/api/groups/33
+DELETE http://localhost:3000/api/groups/18
 Content-Type : application/json
 
 {
-	"password": "12kim"
+	"password": "do123"
 }
