@@ -57,14 +57,10 @@ async function fixGroup(groupId, newGroup){
 async function deleteGroup(groupId, groupPassword){
     //id가 맞는지 비교하려면 비밀 번호를 db에서 접근을 먼저 해야함.
     const findPassword = await groupRepository.findByPassword(groupId);
-<<<<<<< HEAD
-    
-    //비밀 번호 맞는지 확인
-    if(findPassword.password!==groupPassword){   //controller에서 이미 password를 빼놨음, 이미 string이니까
-=======
+
+
 
     if(findPassword.password!==groupPassword){   //controller에서 이미 password를 빼놨음
->>>>>>> 45f2c6f6dc0ab024f5ee34375aa511d3c2ab0005
       return 'wrongError';
     }
 
