@@ -13,8 +13,10 @@ Content-Type: application/json
 //group 조회하기
 ###
 
+
+//비밀번호
 ###
-POST http://localhost:3000/api/groups/18/verify-password
+POST http://localhost:3000/api/groups/27/verify-password
 Content-Type : application/json
 
 {
@@ -23,11 +25,11 @@ Content-Type : application/json
 
 ###
 //group 공개 여부 확인
-GET http://localhost:3000/api/groups/18/is-public
+GET http://localhost:3000/api/groups/12/is-public
 
 ###
 //group 수정 여부 확인
-PATCH http://localhost:3000/api/groups/18
+PATCH http://localhost:3000/api/groups/36
 Content-Type : application/json
 
 {
@@ -38,9 +40,18 @@ Content-Type : application/json
 	"isPublic": false
 }
 ###
-DELETE http://localhost:3000/api/groups/18
+DELETE http://localhost:3000/api/groups/33
 Content-Type : application/json
 
 {
 	"password": "do123"
 }
+
+
+###
+//상세 내역 조회
+GET http://localhost:3000/api/groups/32
+
+###
+//게시글 공감하기
+POST http://localhost:3000/api/groups/42/like
