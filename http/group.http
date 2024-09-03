@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
 	"name": "do",
-	"password": "do123",
+	"password": "123",
 	"imageUrl": "do.png",
 	"isPublic": true,
 	"introduction": "annyeong haseyou"
@@ -39,9 +39,9 @@ Content-Type : application/json
 	"isPublic": true
 }
 ###
-DELETE http://localhost:3000/api/groups/19
+DELETE http://localhost:3000/api/groups/26
 Content-Type : application/json
 
 {
-	"password": "do123"
+	"password": "123"
 }

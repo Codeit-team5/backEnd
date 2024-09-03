@@ -107,17 +107,16 @@ groupController.delete('/api/groups/:groupId',async(req,res)=>{
     
     await groupService.deleteGroup(Id, password);
 
-    return res.status(200).json({message : "그룹 삭제 성공"});
-    }
-    catch(error){
     if(deleteGroup=="wrongError"){
       return res.status(401).json({message : "비밀번호가 틀렸습니다"});
     }else if (deleteGroup=="nonError"){
       return res.status(400).json({message :'잘못된 요청입니다' });
-    }else{
+    }
+    return res.status(200).json({message : "그룹 삭제 성공"});
+    }
+    catch(error){
       console.error('error!',error);
       return res.status(404).json({message :'존재하지 않습니다' });
-    }
   }
 })
 

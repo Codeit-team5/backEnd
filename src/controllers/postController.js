@@ -110,17 +110,17 @@ postController.delete('/api/posts/:postId',async(req,res)=>{
     
     await postService.deletePost(id, password);
 
-    return res.status(200).json({message : "그룹 삭제 성공"});
-    }
-    catch(error){
     if(deletePost=="wrongPostPassError"){
       return res.status(401).json({message : "비밀번호가 틀렸습니다"});
     }else if (deleteGroup=="nonPostError"){
       return res.status(400).json({message :'잘못된 요청입니다' });
-    }else{
+    }
+    return res.status(200).json({message : "그룹 삭제 성공"});
+    }
+    catch(error){
       console.error('error!',error);
       return res.status(404).json({message :'존재하지 않습니다' });
-    }
+    
   }
 });
 
@@ -129,12 +129,12 @@ postController.get('/api/posts/:postId',async(req,res)=>{
   try{
     const postId = req.params.postId;
     const detail = await postService.findDetailPost(postId);
-    return res.status(200).json(detail);
     if(detail=="thereIsNoPostId"){
       return res.status(400).json({message :"잘못된 요청입니다" });
     }
-}catch(error){
+    return res.status(200).json(detail);
 
+}catch(error){
     console.error('error!',error);
     return res.status(404).json({message :"404오류" });
     }

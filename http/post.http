@@ -1,5 +1,5 @@
 //post 등록하기
-POST http://localhost:3000/api/groups/2/posts
+POST http://localhost:3000/api/groups/19/posts
 Content-Type: application/json
 
 {
@@ -30,4 +30,4 @@ Content-Type : application/json
 
 ###
 //post 공개 여부 확인
-GET http://localhost:3000/api/posts/42/is-public
+GET http://localhost:3000/api/posts/11/is-public
