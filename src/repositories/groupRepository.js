@@ -111,45 +111,39 @@ async function findByIsPublic(group){
 async function fixByGroupId(groupId, newGroup){
   return await prisma.group.update({
     where:{
-      groupId:parseInt(groupId,10)
+      id : parseInt(groupId,10)  //Id로 수정함//
     },
     data :{
-      "name" : newGroup.name,
-      "password" : newGroup.password,
-      "imageUrl" : newGroup.imageUrl,
-      "isPublic" : newGroup.isPublic,
-      "introduction" : newGroup.introduction
+      name : newGroup.name,
+      password : newGroup.password,
+      imageUrl : newGroup.imageUrl,
+      isPublic : newGroup.isPublic,
+      introduction : newGroup.introduction
     },
     select:{
-      "id" : true,
-      "name" : true,
-      "imageUrl" : true,
-      "isPublic" : true,
-      "likeCount" : true,
-      "badges" : true,
-      "postCount" : true,
-      "createdAt" : true,
-      "introduction" : true
+      id : true,
+      name : true,
+      imageUrl : true,
+      isPublic : true,
+      likeCount : true,
+      badges : true,
+      postCount : true,
+      createdAt : true,
+      introduction : true
     }
   })
 };
 
 
 //그룹 삭제
-async function deleteByGroupId(groupId,groupPassword){
-  const {id} = groupId;
-  const { password } = groupPassword;   // Group 객체에서 id, password 추출
-  try{
-    deletedGroup = await prisma.group.delete({
-      where: {
-        id : id,
-        password : password
-      }
-    });
-      return deletedGroup; //삭제된 그룹 정보 반환 (없으면 null)
-  } catch (error){
-    throw error;
-  }};
+async function deleteByGroupId(groupId){
+    return await prisma.group.delete({
+      where:{
+        id : parseInt(groupId,10)
+      },
+    })
+
+  };
 
 // group 상세정보조회
 async function findDetailByGroupId(groupId){

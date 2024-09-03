@@ -3,32 +3,32 @@ POST http://localhost:3000/api/groups
 Content-Type: application/json
 
 {
-	"name": "kaiiis",
-	"password": "12kim",
-	"imageUrl": "image.png",
+	"name": "do",
+	"password": "123",
+	"imageUrl": "do.png",
 	"isPublic": true,
-	"introduction": "first blog"
+	"introduction": "annyeong haseyou"
 }
 
 //group 조회하기
 ###
-Get http://localhost:3000/api/groups?keyword=kaiiis&isPublic=true
+Get http://localhost:3000/api/groups?keyword=do&isPublic=true
 
 ###
-POST http://localhost:3000/api/groups/27/verify-password
+POST http://localhost:3000/api/groups/19/verify-password
 Content-Type : application/json
 
 {
-  "password": "12kim"
+  "password": "do123"
 }
 
 ###
 //group 공개 여부 확인
-GET http://localhost:3000/api/groups/12/is-public
+GET http://localhost:3000/api/groups/19/is-public
 
 ###
 //group 수정 여부 확인
-PATCH http://localhost:3000/api/groups/36
+PATCH http://localhost:3000/api/groups/19
 Content-Type : application/json
 
 {
@@ -36,12 +36,12 @@ Content-Type : application/json
 	"password": "12kim",
 	"imageUrl": "string",
   "introduction": "string",
-	"isPublic": false
+	"isPublic": true
 }
 ###
-DELETE http://localhost:3000/api/groups/33
+DELETE http://localhost:3000/api/groups/26
 Content-Type : application/json
 
 {
-	"password": "12kim"
+	"password": "123"
 }
