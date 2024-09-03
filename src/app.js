@@ -9,21 +9,6 @@ import postController from './controllers/postController.js';
 import commentController from './controllers/commentController.js';
 
 const api = express();
-const userRouter=express.Router();
-
-api.use('/files', express.static('uploads'));
-
-
-const upload=multer({dest:'uploads/'}); //dest=destination
-
-api.post('/files', upload.single('attachment'), (req, res) => {
-  console.log(req.file);
-  res.json({ message: '파일 업로드 완료!'});
-});
-
-//api.get('/files',)
-
-
 
 api.use(express.json()); //client에게 JSON 데이터를 받을 때 JavaScript 객체로 변환
 api.use('',groupController); //나중에 /api 없애도 되는지 확인하기
@@ -34,5 +19,3 @@ const port = process.env.PORT ?? 3000;
 api.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-export default userRouter;

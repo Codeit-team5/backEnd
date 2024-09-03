@@ -24,11 +24,11 @@ Content-Type : application/json
 
 ###
 //group 공개 여부 확인
-GET http://localhost:3000/api/groups/12/is-public
+GET http://localhost:3000/api/groups/23/is-public
 
 ###
 //group 수정 여부 확인
-PATCH http://localhost:3000/api/groups/36
+PATCH http://localhost:3000/api/groups/12
 Content-Type : application/json
 
 {
