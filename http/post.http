@@ -1,6 +1,7 @@
 //post 등록하기
-POST http://localhost:3000/api/groups/19/posts
+POST http://localhost:3000/api/groups/5/posts
 Content-Type: application/json
+
 
 {
 	"nickname": "kllsdfdsfsdfsdm",
@@ -14,6 +15,9 @@ Content-Type: application/json
 	"moment": "2024-02-21",
 	"isPublic": true
 }
+
+
+
 
 ###
 //post 조회하기
@@ -30,4 +34,4 @@ Content-Type : application/json
 
 ###
 //post 공개 여부 확인
-GET http://localhost:3000/api/posts/11/is-public
+GET http://localhost:3000/api/posts/42/is-public

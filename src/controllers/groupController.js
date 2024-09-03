@@ -107,34 +107,36 @@ groupController.delete('/api/groups/:groupId',async(req,res)=>{
     
     await groupService.deleteGroup(Id, password);
 
+    return res.status(200).json({message : "그룹 삭제 성공"});
+    }
+    catch(error){
     if(deleteGroup=="wrongError"){
       return res.status(401).json({message : "비밀번호가 틀렸습니다"});
     }else if (deleteGroup=="nonError"){
       return res.status(400).json({message :'잘못된 요청입니다' });
-    }
-    return res.status(200).json({message : "그룹 삭제 성공"});
-    }
-    catch(error){
+    }else{
       console.error('error!',error);
       return res.status(404).json({message :'존재하지 않습니다' });
+    }
   }
-})
+});
 
 //group 상세정보조회
 groupController.get('/api/groups/:groupId',async(req,res)=>{
   try{
     const groupId = req.params.groupId;
     const detail = await groupService.findDetailGroup(groupId);
-    if(detail=="thereIsNoGroupId"){
-      return res.status(400).json({message :"잘못된 요청입니다" });
-    }
     return res.status(200).json(detail);
+
 }catch(error){
+  if(detail=="thereIsNoGroupId"){
+    return res.status(400).json({message :"잘못된 요청입니다" });
+  }else{
     console.error('error!',error);
     return res.status(404).json({message :"404오류" });
     }
-  })
-
+}
+})
 
 /*group 공개여부확인
 groupController.get('/api/groups/:groupId',async(req,res)=>{
