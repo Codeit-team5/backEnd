@@ -43,9 +43,11 @@ async function open(postId){
   return await postRepository.findByIsPublic(postId); 
 }
 
+
+/////////////////////////////////////////////////////////////////////
 //id와 객체를 받아서 그룹 수정
 async function fixPost(postId, newPost){
-  const postPass = await groupRepository.findByPassword(groupId);
+  const groupPass = await postRepository.findByPassword(postId);
 
   //양식을 입력하기 않았을 때
   if(newPost.nickname == null,
@@ -60,41 +62,52 @@ async function fixPost(postId, newPost){
       return "wrongFixPostResponse";
     }
     //비밀 번호가 같지 않을 때
-  if(groupPass.password !=newPost.password){
+  if(groupPass.postPassword !=newPost.postPassword){
     return "wrongFixPostPassword";
   }
 
-  return await PostRepository.fixByPostId(postId,newPost);
+  return await postRepository.fixByPostId(postId,newPost);
 
 }
 
 //id를 받아서 입력과 같은 id라면 삭제.
 async function deletePost(postId, postPassword){
-  const deletedPost = await postRepository.deleteByPostId(postId, postPassword);
+  const deletedPost = await postRepository.findByPassword(postId);
 
-  if (!deletedPost){
-    return 'nonPostError';
-  }
-  if(deletedpost.password!==postPassword.password){
+  if(deletedPost.postPassword!==postPassword){
     return 'wrongPostPassError';
-  }
-return await postRepository.deleteByPostId(postId,postPassword);
+  }else if(postPassword==null){
+    return "nonPostError";
+  };
+
+  return await postRepository.deleteByPostId(postId,postPassword);
 }
 
-//post 상세정보조회
-async function findDetailPost(postId) {
-  const detailPost = await postRepository.list(postId); //레포지토리의 list를 할당
-  if(!detailPost){
-    return 'thereIsNoPostId'
-  }
-  return await groupRepository.findDetailByPostId(postId);
-}
+  //post 상세정보조회
+  async function findDetailPost(postId) {
+    const findPostId = await postRepository.findByPostId(postId);
 
-//post 공감하기
-async function likePostService(postId) {
-  const likeGroup = await groupRepository.findByGroupId(groupId);
-  return await groupRepository.likeByGroupId(groupId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
-}
+    //postId에 해당하는 내용 없을 때
+    if(findPostId == null){
+      return "thereIsNoPostId"
+    }
+
+    return await postRepository.findDetailByPostId(postId);
+  }
+  
+  //post 공감하기
+  async function plusLike(postId) {
+    const likeGroup = await postRepository.findByPostId(postId)
+
+    //postId에 해당하는 내용 없을 때
+    if(likeGroup == null){
+      return "thereIsNoPostId"
+    }
+
+    const plusLike = await postRepository.likeByGroupId(postId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
+  }
+
+
 
 export default {
   register,
@@ -103,5 +116,6 @@ export default {
   open,
   fixPost,
   deletePost,
-  findDetailPost
+  findDetailPost,
+  plusLike
 };

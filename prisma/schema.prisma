@@ -5,10 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  provider = "prisma-client-js"
 }
-
 
 datasource db {
   provider = "postgresql"
@@ -38,7 +36,7 @@ model Post {
   title     String    @default("")
   content   String    @default("")
   imageUrl  String    @default("")
-  tags      String   @default("[]")
+  tags      String[]   @default([])
   location  String   @default("")
   moment    DateTime   @default(now())    //양식에 따라 이후에 변경해야함
   isPublic  Boolean @default(true)
@@ -67,13 +65,13 @@ model Comment {
   password    String    @default("password1234")
   createdAt   DateTime @default(now())
 
-  page        Int
-  pageSize    Int
+  page        Int?
+  pageSize    Int?
   
   postId  Int     //외래키
   post    Post    @relation(fields: [postId],references: [id])
 
-  commentId   Int   @unique//post당 comment의 id, unique이므로 null이 허용되지 않음
+  commentId   Int   //post당 comment의 id, unique이므로 null이 허용되지 않음
 }
 
 model Image {

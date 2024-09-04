@@ -1,17 +1,37 @@
 ###
-//comment 조회하기
-Get http://localhost:3000/api/posts/1/comments
-
-
-###
-//댓글 수정하기
-PATCH http://localhost:3000/api/comments/8
+//comment 등록하기
+POST http://localhost:3000/api/posts/30/comments
 Content-Type: application/json
 
 {
-  "nickname": "stringgg",
-  "content": "string",
-  "password": "string"
+  "nickname": "real2",
+  "content": "ssd67676676776fd",
+  "password": "password123" 
 }
 
+
 ###
+//comment 조회하기
+Get http://localhost:3000/api/posts/30/comments
+
+
+###s
+//댓글 수정하기
+PATCH http://localhost:3000/api/comments/36
+Content-Type: application/json
+
+{
+  "nickname": "string",
+  "content": "string",
+  "password": "password123"
+}
+
+
+###
+//댓글 삭제하기
+DELETE http://localhost:3000/api/comments/36
+Content-Type: application/json
+
+{
+  "password": "password123"
+}

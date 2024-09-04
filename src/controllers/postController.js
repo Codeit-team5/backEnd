@@ -20,9 +20,9 @@ postController.post('/api/groups/:groupId/posts',async(req,res)=>{
 //게시글 목록 조회하기
 postController.get('/api/groups/:groupId/posts', async(req,res)=>{
   try{
-    const Id = await req.params.groupId;
-    const keyword = await req.query.keyword;         //제목과 태그에 포함 된 것을 검색하는 것임.
-    const isPublicString = await req.query.isPublic;
+    const Id = req.params.groupId;
+    const keyword = req.query.keyword;         //제목과 태그에 포함 된 것을 검색하는 것임.
+    const isPublicString = req.query.isPublic;
 
     
     //isPublicString을 stirng => boolean
@@ -82,11 +82,18 @@ postController.get('/api/posts/:postId/is-public', async(req,res)=>{
   } 
 })
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 //group 수정
 postController.patch('/api/posts/:postId', async(req,res)=>{
   try{
     const id = req.params.postId;                         //id(로컬변수)와 수정된 그룹을 가져옴.
-    const fixedPost = await postService.fixPost(id,newPost);
+
+    //newPost라는 변수 없음
+    //const fixedPost = await postService.fixPost(id,newPost);
+
+    const fixedPost = await postService.fixPost(id,req.body);
 
     if(fixedPost == "wrongFixPostResponse"){  //fixedGroup이 string wrongFixPostResponse라면 400
       return res.status(400).json({message: "잘못된 요청입니다"})
@@ -95,7 +102,8 @@ postController.patch('/api/posts/:postId', async(req,res)=>{
       return res.status(403).json({message: "비밀번호가 틀렸습니다"})
     }
 
-    return res.json(fixedPost);
+    //status 추가
+    return res.status(200).json(fixedPost);
   }catch(error) {
     console.error("error!", error); // 나머지 에러는 error를 출력하며
     res.status(404).json({message: "존재하지 않습니다"});//404 상태 출력
@@ -106,39 +114,56 @@ postController.patch('/api/posts/:postId', async(req,res)=>{
 postController.delete('/api/posts/:postId',async(req,res)=>{
   try{
     const id = req.params.postId;
-    const password = req.body.password;
+    const password = req.body.postPassword;
     
-    await postService.deletePost(id, password);
-
-    return res.status(200).json({message : "그룹 삭제 성공"});
-    }
-    catch(error){
-    if(deletePost=="wrongPostPassError"){
+    const deltedPost = await postService.deletePost(id, password);
+    if(deltedPost=="wrongPostPassError"){
       return res.status(401).json({message : "비밀번호가 틀렸습니다"});
-    }else if (deleteGroup=="nonPostError"){
+    }else if (deltedPost=="nonPostError"){
       return res.status(400).json({message :'잘못된 요청입니다' });
-    }else{
-      console.error('error!',error);
-      return res.status(404).json({message :'존재하지 않습니다' });
     }
+    return res.status(200).json({message : "그룹 삭제 성공"});
+    
+  }
+  catch(error){
+    console.error('error!',error);
+    return res.status(404).json({message :'존재하지 않습니다' });
   }
 });
 
-//group 상세정보조회
+// post 정보조회
 postController.get('/api/posts/:postId',async(req,res)=>{
   try{
     const postId = req.params.postId;
     const detail = await postService.findDetailPost(postId);
+    if(detail=="thereIsNoPostId"){
+      return res.status(400).json({message :"잘못된 요청입니다" });
+    }
     return res.status(200).json(detail);
 
-}catch(error){
-  if(detail=="thereIsNoPostId"){
-    return res.status(400).json({message :"잘못된 요청입니다" });
-  }else{
+  }
+  catch(error){
+    console.error('error!',error);
+      return res.status(404).json({message :"404오류" });
+}
+})
+
+//post 공감하기
+postController.post('/api/posts/:postId/like' ,async(req,res)=>{
+  try{
+    const postId = req.params.postId;
+    const likePost = await postService.plusLike(postId);
+  
+    if(likePost=="thereIsNoPostId"){
+      return res.status(400).json({message :"잘못된 요청입니다" });
+    }
+    return res.status(200).json({message : "그룹 공감하기 성공"});
+  }
+  catch(error){
     console.error('error!',error);
     return res.status(404).json({message :"404오류" });
-    }
-}
+  }
+
 })
 
 export default postController;

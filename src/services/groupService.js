@@ -9,17 +9,19 @@ async function show(keyword,isPublic){       //목록을 보여줌.
   return groupRepository.list(keyword,isPublic);
 }
 
+
+///////////////////////////////////////////////////////////////
 //비밀번호를 비교해서 return을 설정해야 함.
 async function compare(groupId,sendPassword){  //GroupId와 req로 보낸 password를 비교
   //grouId로 group를 찾음
-  const findGroup = await groupRepository.findByGroupId(groupId);
-  const restorePassword = await groupRepository.findByPassword(findGroup);
- 
+  const findGroup = await groupRepository.findByPassword(groupId);
   //둘 다 객체이기 때문에 아래와 같이 비교해야함.
-  if (restorePassword.password===sendPassword.password){
+
+  if (findGroup.password===sendPassword.password){
     return true;
   }
   else{return false;};
+ 
 }
 
 
@@ -53,16 +55,16 @@ async function fixGroup(groupId, newGroup){
 
 //id를 받아서 입력과 같은 id라면 삭제.
 async function deleteGroup(groupId, groupPassword){
-    const deletedGroup = await groupRepository.findByPassword(groupId);
-  
-    if (!deletedGroup){
-      return 'nonError';
-    }
-    if(deletedGroup.password!==groupPassword.password){
+    //id가 맞는지 비교하려면 비밀 번호를 db에서 접근을 먼저 해야함.
+    const findPassword = await groupRepository.findByPassword(groupId);
+
+    if(findPassword.password!==groupPassword){   //controller에서 이미 password를 빼놨음
       return 'wrongError';
     }
-  return await groupRepository.deleteByGroupId(groupId,groupPassword);
+
+  return await groupRepository.deleteByGroupId(groupId);
   }
+
 
 //group 상세정보조회
 async function findDetailGroup(groupId) {
@@ -73,20 +75,11 @@ async function findDetailGroup(groupId) {
   return await groupRepository.findDetailByGroupId(groupId);
 }
 
-/* group 공개여부확인
-async function openPublicGroup(groupId) {
-  const publicGroup = await groupRepository.openPublicByGroupId(groupId);
-  if(!publicGroup){
-    return 'thereIsNoGroupId'
-  }
-  return await groupRepository.openPublicByGroupId(groupId);
-}
-*/
 
 //group 공감하기
 async function likeGroupService(groupId) {
-  const likeGroup = await groupRepository.findByGroupId(groupId);
-  return await groupRepository.likeByGroupId(groupId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
+  const plusLike = await groupRepository.likeByGroupId(groupId); //공감을 받으면 바로 추가됨. 중복도 가능하니 상관없음
+  
 }
 
 export default {
@@ -97,6 +90,5 @@ export default {
   compare,
   open,
   findDetailGroup,
-  //openPublicGroup,
   likeGroupService
 };

@@ -3,45 +3,56 @@ POST http://localhost:3000/api/groups
 Content-Type: application/json
 
 {
-	"name": "kaiiis",
-	"password": "12kim",
+	"name": "real3",
+	"password": "password1234",
 	"imageUrl": "image.png",
-	"isPublic": true,
+	"isPublic": false,
 	"introduction": "first blog"
 }
 
 //group 조회하기
 ###
-Get http://localhost:3000/api/groups?keyword=kaiiis&isPublic=true
+Get http://localhost:3000/api/groups?keyword=real3&isPublic=false
 
+
+//비밀번호
 ###
-POST http://localhost:3000/api/groups/27/verify-password
+POST http://localhost:3000/api/groups/36/verify-password
 Content-Type : application/json
 
 {
-  "password": "12kim"
+  "password": "password1234"
 }
 
 ###
 //group 공개 여부 확인
-GET http://localhost:3000/api/groups/23/is-public
+GET http://localhost:3000/api/groups/31/is-public
 
 ###
 //group 수정 여부 확인
-PATCH http://localhost:3000/api/groups/12
+PATCH http://localhost:3000/api/groups/31
 Content-Type : application/json
 
 {
 	"name": "string",
-	"password": "12kim",
+	"password": "12ki",
 	"imageUrl": "string",
   "introduction": "string",
 	"isPublic": false
 }
 ###
-DELETE http://localhost:3000/api/groups/33
+DELETE http://localhost:3000/api/groups/31
 Content-Type : application/json
 
 {
-	"password": "12kim"
+	"password": "12ki"
 }
+
+
+###
+//상세 내역 조회
+GET http://localhost:3000/api/groups/36
+
+###
+//게시글 공감하기
+POST http://localhost:3000/api/groups/36/like
