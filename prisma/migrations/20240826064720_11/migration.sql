@@ -5,4 +5,4 @@
 
 */
 -- CreateIndex
-CREATE UNIQUE INDEX "Comment_commentId_key" ON "Comment"("commentId");
+CREATE unique INDEX "Comment_commentId_key" ON "Comment"("commentId");

@@ -17,7 +17,7 @@ Get http://localhost:3000/api/groups?keyword=real3&isPublic=false
 
 //비밀번호
 ###
-POST http://localhost:3000/api/groups/36/verify-password
+POST http://localhost:3000/api/groups/3/verify-password
 Content-Type : application/json
 
 {
@@ -41,11 +41,11 @@ Content-Type : application/json
 	"isPublic": false
 }
 ###
-DELETE http://localhost:3000/api/groups/31
+DELETE http://localhost:3000/api/groups/3
 Content-Type : application/json
 
 {
-	"password": "12ki"
+	"password": "password1234"
 }
 
 
