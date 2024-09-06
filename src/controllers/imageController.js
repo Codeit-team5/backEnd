@@ -6,7 +6,7 @@ const imageController = express.Router();
 //따로 uploads 파일을 저장을 해 놓아야 함.
 //multer를 통해서 로컬에 uploads 파일에 이미지가 저장됨
 //db에 직접적으로 저장을 하려면 bytea로 속성 변경
-const upload = multer({ dest: 'uploads/'});
+const upload = multer({ dest: 'public/'});
 
 
 imageController.post('/image', upload.single('image'), (req, res) => {
