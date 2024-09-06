@@ -1,8 +1,8 @@
 import imageRepository from '../repositories/imageRepository.js';
 
-async function post(Image) {    
-    const postedImage = await imageRepository.createImage(image);
-    return imageRepository.registerList(createGroup);
+async function post(image) {    
+    return await imageRepository.createImage(image);
+    
   }
 
 export default {
