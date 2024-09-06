@@ -73,17 +73,3 @@ model Comment {
 
   commentId   Int   //post당 comment의 id, unique이므로 null이 허용되지 않음
 }
-
-model Image {
-  id          Int      @id @default(autoincrement()) // 기본 키로 id를 사용
-  imageUrl    String   @default("")                  // 이미지 URL을 저장하는 필드
-  //relatedImage  Image?  @relation("RelatedImage")    // 다른 이미지와의 관계 설정
-  relatedImageId Int?   // 외래 키를 저장할 필드
-}
-
-model RelatedImage {
-  id          Int      @id @default(autoincrement()) 
-  imageUrl    String   @default("")
-  //originalImage Image? @relation("RelatedImage", fields: [relatedImageId], references: [id]) // 관계 설정
-  relatedImageId Int?   // 외래 키로 사용될 필드
-}

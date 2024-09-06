@@ -41,17 +41,16 @@ Content-Type : application/json
 	"isPublic": false
 }
 ###
-DELETE http://localhost:3000/api/groups/3
+DELETE http://localhost:3000/api/groups/5
 Content-Type : application/json
 
 {
 	"password": "password1234"
 }
 
-
 ###
 //상세 내역 조회
-GET http://localhost:3000/api/groups/36
+GET http://localhost:3000/api/groups/6
 
 ###
 //게시글 공감하기
