@@ -17,7 +17,7 @@ api.use('',postController); //나중에 /api 없애도 되는지 확인하기
 api.use('',commentController);
 api.use('',imageController);
 
-api.use('/image', express.static('uploads/'));
+api.use('/image', express.static('public/'));
 
 const port = process.env.PORT ?? 3000;
 api.listen(port, () => {
