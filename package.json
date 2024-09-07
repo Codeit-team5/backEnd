@@ -8,6 +8,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.js"
   },
   "scripts": {
+    
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "dev": "nodemon src/app.js",

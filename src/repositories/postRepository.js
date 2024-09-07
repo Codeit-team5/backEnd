@@ -30,8 +30,8 @@ async function create(Post,groupById,newPostId) {
       "location": Post.location,
       "moment": new Date(Post.moment), // moment를 Date 객체로 변환
       "isPublic": Post.isPublic,
-      "likeCount": 0,
-      "commentCount": (await prisma.comment.count()), //comment의 개수
+      //"likeCount": 0,
+      //"commentCount": (await prisma.comment.count()), //comment의 개수
       "postPassword":Post.postPassword,
       "groupPassword" : Post.groupPassword,
       "postId" : newPostId
@@ -71,8 +71,8 @@ async function list(groupById){
 	    "location": true,
 	    //"moment": true,
 	    "isPublic": true,
-	    "likeCount": true,
-	    "commentCount": true,
+	    //"likeCount": true,
+	    //"commentCount": true,
 	    "createdAt": true
     }
   });
@@ -98,12 +98,12 @@ async function selectiveList(groupById,keyword,groupByIsPublic){
       "nickname": true,
       "title": true,
       "imageUrl": true,
-      "tags": true,
+      //"tags": true,
       "location": true,
       "moment": true,
       "isPublic": true,
-      "likeCount": true,
-      "commentCount": true,
+      //"likeCount": true,
+      //"commentCount": true,
       "createdAt": true
     }
   })
@@ -164,8 +164,8 @@ async function fixByPostId(postId, newPost){
       location : true,
       moment : true,
       isPublic : true,
-      likeCount : true,
-      commentCount : true,
+      ///likeCount : true,
+      //commentCount : true,
       createdAt : true
     }
   })
@@ -210,8 +210,8 @@ async function findDetailByPostId(postId){
       "location": true,
       //"moment": true,
       "isPublic": true,
-      "likeCount": true,
-      "commentCount": true,
+      //"likeCount": true,
+      //"commentCount": true,
       "createdAt": true
     }
     })

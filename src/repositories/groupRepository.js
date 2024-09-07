@@ -13,7 +13,7 @@ async function create(Group){
       imageUrl : Group.imageUrl,
       isPublic : Group.isPublic,
       introduction : Group.introduction,
-      postCount : (await prisma.post.count()) //post의 개수
+      //postCount : (await prisma.post.count()) //post의 개수
     },
   })
   return registerGroup;
@@ -29,9 +29,9 @@ async function registerList(group){
       "name": true,
       "imageUrl": true,
       "isPublic": true,
-      "likeCount": true,
-      "badges": true,
-      "postCount": true,
+      //"likeCount": true,
+      //"badges": true,
+      //"postCount": true,
       "createdAt": true,
       "introduction": true
     }
@@ -58,9 +58,9 @@ async function list(keyword,isPublic){
 			"name": true,
 			"imageUrl": true,
 			"isPublic": true,
-			"likeCount": true,
-			"badgeCount": true,
-			"postCount": true,
+			//"likeCount": true,
+			//"badgeCount": true,
+			//"postCount": true,
 			"createdAt": true,
 			"introduction": true
     }
@@ -124,9 +124,9 @@ async function fixByGroupId(groupId, newGroup){
       name : true,
       imageUrl : true,
       isPublic : true,
-      likeCount : true,
-      badges : true,
-      postCount : true,
+      //likeCount : true,
+      //badges : true,
+      //postCount : true,
       createdAt : true,
       introduction : true
     }
@@ -157,9 +157,9 @@ async function findDetailByGroupId(groupId){
       "name" : true,
       "imageUrl": true,
       "isPublic": true,
-      "likeCount": true,
-      "badges" : true,
-      "postCount": true,
+      //"likeCount": true,
+      //"badges" : true,
+      //"postCount": true,
       "createdAt": true,
       "introduction": true
     }
