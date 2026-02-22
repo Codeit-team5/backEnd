@@ -7,9 +7,11 @@ SNS 웹 서비스의 백엔드 서버입니다.
 - Node.js
 - Express
 - PostgreSQL
+- Prisma
 
 ## 주요 기능
-- 회원가입 / 로그인 (JWT 인증)
+- 그룹 CRUD
 - 게시글 CRUD
 - 댓글 기능
 - 좋아요 기능
+- 비밀번호 암호화 (PBKDF2)
