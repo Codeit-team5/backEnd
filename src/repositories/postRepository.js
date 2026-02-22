@@ -1,0 +1,238 @@
+import prisma from '../config/prisma.js';
+
+
+async function findPostIdByGroupId(groupById){
+  const maxPostIdByGroup = await prisma.post.findFirst({
+    where: {
+      groupId: parseInt(groupById, 10),
+    },
+    orderBy: {
+      postId: 'desc', // 내림차순으로 정렬하여 가장 큰 값을 가져옴
+    },
+    select: {
+      postId: true,
+    },
+  });
+  return maxPostIdByGroup;
+}
+
+//req에서 받은 데이터를 생성, api 형식에 맞는 res 양식으로 돌려주는 것 까지
+async function create(Post,groupById,newPostId) {
+
+  const registerPost = await prisma.post.create({
+    data:{
+      "groupId": parseInt(groupById, 10),
+      "nickname": Post.nickname,
+      "title": Post.title,
+      "content": Post.content,
+      "imageUrl": Post.imageUrl,
+      "location": Post.location,
+      "moment": new Date(Post.moment), // moment를 Date 객체로 변환
+      "isPublic": Post.isPublic,
+      "postPassword":Post.postPassword,
+      "groupPassword" : Post.groupPassword,
+      "postId" : newPostId,
+      "salt": Post.salt
+    },
+    
+  })
+  
+  return registerPost;
+}
+
+//게사글 등록하기 에서 보여줘야 할 것들(db에 있는 모든 것)
+async function list(groupById){
+
+  const listPost = await prisma.post.findFirst({
+    where:{
+      groupId : parseInt(groupById, 10),
+    },
+    orderBy: {
+      id: 'desc',  // id를 내림차순으로 정렬하여 최신의 post를 선택
+    },
+    select:{
+      "id": true,
+      "groupId": true,
+	    "nickname": true,
+	    "title": true,
+	    "content": true,
+	    "imageUrl": true,
+	    "location": true,
+	    "isPublic": true,
+	    "createdAt": true
+    }
+  });
+  return listPost;
+};
+
+//목록 조회에서 보여주는 list들
+async function selectiveList(groupById,keyword,groupByIsPublic){
+
+  const selectiveListPost = await prisma.post.findMany({
+    where:{
+      groupId : parseInt(groupById,10),
+      //contain으로 포함이 되어 확인함.
+      OR: [
+        { title: { contains: keyword } }, // title에 keyword가 포함된 경우
+      ],
+      isPublic : groupByIsPublic
+    },
+    select:{
+      "id": true,
+      "postId" : true,
+      "nickname": true,
+      "title": true,
+      "imageUrl": true,
+      "location": true,
+      "moment": true,
+      "isPublic": true,
+      "createdAt": true
+    }
+  })
+  return selectiveListPost;
+}
+
+//postId를 전달 받아서 postPassword를 반환함.
+async function findByPassword(postId){
+  return await prisma.post.findFirst({
+    where:{
+      id : parseInt(postId,10)
+    },
+    select:{
+      "postPassword" : true
+    }
+  })
+}
+
+//postId를 전달 받아서 postPassword와 salt를 반환함.
+async function findByPasswordAndSalt(postId){
+  return await prisma.post.findFirst({
+    where:{
+      id : parseInt(postId,10)
+    },
+    select:{
+      postPassword : true,
+      salt : true
+    }
+  })
+}
+
+//공개 여부 확인
+async function findByIsPublic(postId){
+  return await prisma.post.findFirst({
+    where:{
+      id : parseInt(postId,10)
+    },
+    select:{
+      isPublic : true
+    }
+  })
+}
+
+
+
+//post 수정
+async function fixByPostId(postId, newPost){
+  return await prisma.post.update({
+    where:{
+      id:parseInt(postId,10)
+    },
+    data :{
+      nickname : newPost.nickname,
+      title : newPost.title,
+      content : newPost.content,
+      postPassword : newPost.postPassword,
+      imageUrl : newPost.imageUrl,
+      location :newPost.location,
+      //현재 시간으로 추가하기
+      moment: newPost.moment ? new Date(newPost.moment) : new Date(),
+      isPublic :newPost.isPublic,
+      salt : newPost.salt
+    },
+    select:{
+      id : true,
+      groupId : true,
+      nickname : true,
+      title : true,
+      content : true,
+      imageUrl : true,
+      //tags : true,
+      location : true,
+      moment : true,
+      isPublic : true,
+      createdAt : true
+    }
+  })
+};
+
+
+
+//post 삭제
+async function deleteByPostId(postId){
+  return await prisma.post.delete({
+    where: {
+      id : parseInt(postId,10)
+  }});
+}
+
+
+//postId 조회
+async function findByPostId(postId){
+  return await prisma.post.findFirst({
+    where:{
+      id:parseInt(postId,10)
+    }
+  })
+}
+
+
+
+// post 상세정보조회
+async function findDetailByPostId(postId){
+  return await prisma.post.findMany({
+    where : {
+      id:parseInt(postId,10)
+    },
+    select : {
+      "id": true,
+      "groupId": true,
+      "nickname": true,
+      "title": true,
+      "content": true,
+      "imageUrl": true,
+      "location": true,
+      "isPublic": true,
+      "createdAt": true
+    }
+    })
+  }
+
+
+  //공감 1 추가하기
+  async function likeByGroupId(postId){
+    return await prisma.post.update({
+      where:{
+        id:parseInt(postId,10)
+      },
+      data : {
+        likeCount : {
+          increment : 1
+        }
+      }
+    })
+  }
+
+export default {
+  findPostIdByGroupId,
+  create,
+  list,
+  selectiveList,
+  findByPassword,
+  findByPasswordAndSalt,
+  findByIsPublic,
+  fixByPostId,
+  deleteByPostId,
+  findByPostId,
+  findDetailByPostId,
+  likeByGroupId
+}

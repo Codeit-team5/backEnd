@@ -1,0 +1,57 @@
+//group 등록하기
+POST http://localhost:3000/api/groups
+Content-Type: application/json
+
+{
+  "name": "testGroup!",
+  "password": "password1234",
+  "imageUrl": "image.png",
+  "isPublic": true,
+  "introduction": "test"
+}
+
+//group 조회하기
+###
+Get http://localhost:3000/api/groups?keyword=testGroup!&&Public=true
+
+
+//비밀번호
+###
+POST http://localhost:3000/api/groups/3/verify-password
+Content-Type : application/json
+
+{
+  "password": "password1234"
+}
+
+###
+//group 공개 여부 확인
+GET http://localhost:3000/api/groups/3/is-public
+
+###
+//group 수정 여부 확인
+PATCH http://localhost:3000/api/groups/1
+Content-Type : application/json
+
+{
+	"name": "string",
+	"password": "password1234",
+	"imageUrl": "string",
+  "introduction": "string",
+	"isPublic": false
+}
+###
+DELETE http://localhost:3000/api/groups/5
+Content-Type : application/json
+
+{
+	"password": "password1234"
+}
+
+###
+//상세 내역 조회
+GET http://localhost:3000/api/groups/3
+
+###
+//게시글 공감하기
+POST http://localhost:3000/api/groups/3/like

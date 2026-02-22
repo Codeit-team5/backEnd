@@ -1,0 +1,9 @@
+POST http://localhost:3000/image
+Content-Type: multipart/form-data; boundary=----boundary
+
+------boundary
+Content-Disposition: form-data; name="image"; filename="반주 액체.jpg"
+Content-Type: image/jpeg
+
+< C:\Users\소담소담\Desktop\반주 액체.jpg
+------boundary--

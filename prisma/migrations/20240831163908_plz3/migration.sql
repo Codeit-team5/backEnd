@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Comment" ALTER COLUMN "page" DROP NOT NULL,
+ALTER COLUMN "pageSize" DROP NOT NULL;
